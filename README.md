@@ -63,9 +63,13 @@ WHERE MARKETS_NAME='CHENNAI' AND D.YEAR = 2020;
 
 Data Analysis Using Power BI
 
-Import Database 'sales'.
+Import(Get Data) Database 'sales'.
+
+As the MYSQL application is loaded in the local system.Use credentials- Server: localhost, Database : Sales
 
 Check for the connections between the tables
+
+If the connection is missing between the tables,just drag the primary key on top of the key in another table,so that the tables are linked.
 
 In the power query editor 
 
@@ -79,7 +83,7 @@ Filter those records with USD#(cr) and INR#(cr) alone.
 
 = Table.SelectRows(#"records with sales_amount >0", each ([currency] = "INR#(cr)" or [currency] = "USD#(cr)"))
 
-Convert USD to INR.
+Convert USD to INR- by Adding a new column 'final_sales_amount'
 
 = Table.AddColumn(#"filter INR/r and USD/r records", "final_sales_amount", each if [currency] = "USD#(cr)" then [sales_amount]*75 else [sales_amount])
 
@@ -88,3 +92,6 @@ Transform Data  : Sales Markets Table
  Remove null value records
  
  = Table.SelectRows(sales_markets, each ([zone] <> ""))
+ 
+ Once the transformations are done.Click on Apply changes. So that we leave the power query editor and the control navigates to the Visual page. Under home tab find   Enter Data icon and create 'Measurements' as the table name..under that add new measures as -1. 'Revenue' - Revenue = sum('sales transactions'[final_sales_amount]).
+2. 'Sales Qty' - Sales Quantity = sum('sales transactions'[sales_qty])
